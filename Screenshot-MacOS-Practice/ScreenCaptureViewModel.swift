@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import KeyboardShortcuts
 
 
 class ScreenCaptureViewModel: ObservableObject {
@@ -29,6 +30,20 @@ class ScreenCaptureViewModel: ObservableObject {
     }
     
     @Published var images = [NSImage]()
+    
+    init() {
+        KeyboardShortcuts.onKeyUp(for: .screenshotCapture) { [self] in
+            self.takeScreenshot(for: .area)
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .screenshotCaptureWindow) { [self] in
+            self.takeScreenshot(for: .window)
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .screenshotCaptureFull) { [self] in
+            self.takeScreenshot(for: .full)
+        }
+    }
     
     
     func takeScreenshot(for type: ScreenshotTypes) {
